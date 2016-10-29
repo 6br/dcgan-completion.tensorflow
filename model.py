@@ -245,6 +245,18 @@ Initializing a new one.
             mask = np.ones(self.image_shape)
             c = self.image_size // 2
             mask[:,:c,:] = 0.0
+        elif config.maskType == 'right':
+            mask = np.ones(self.image_shape)
+            c = self.image_size // 2
+            mask[:,c:,:] = 0.0
+        elif config.maskType == 'top':
+            mask = np.ones(self.image_shape)
+            c = self.image_size // 2
+            mask[:c,:,:] = 0.0
+        elif config.maskType == 'bottom':
+            mask = np.ones(self.image_shape)
+            c = self.image_size // 2
+            mask[c:,:,:] = 0.0
         elif config.maskType == 'full':
             mask = np.ones(self.image_shape)
         else:
