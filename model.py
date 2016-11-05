@@ -257,6 +257,26 @@ Initializing a new one.
             mask = np.ones(self.image_shape)
             c = self.image_size // 2
             mask[c:,:,:] = 0.0
+        elif config.maskType == 'circle':
+            scale = 0.25
+            assert(scale <= 0.5)
+            mask = np.ones(self.image_shape)
+            l = int(self.image_size*scale)
+            u = int(self.image_size*(1.0-scale))
+            r = (self.image_size * (1.0 - 2 * scale))/2.0
+            for x in xrange(l, u):
+                d = abs(0.5 - x / self.image_size) * self.image_size
+                h = math.sqrt(r*r - d*d)
+                mask[x, int(self.image_size*0.5-h):int(self.image_size*0.5+h),:] = 0.0
+        elif config.maskType == 'diamond':
+            scale = 0.25
+            assert(scale <= 0.5)
+            mask = np.ones(self.image_shape)
+            l = int(self.image_size*scale)
+            u = int(self.image_size*(1.0-scale))
+            for x in xrange(l, u):
+                d = abs(0.5 - x / self.image_size)
+                mask[x, int(self.image_size*(scale+d)):int(self.image_size*(1.0-scale-d)),:] = 0.0
         elif config.maskType == 'full':
             mask = np.ones(self.image_shape)
         else:
